@@ -281,7 +281,12 @@ export class Worker extends QueueBase {
     };
 
     const handleFailed = async (err: Error) => {
-      await job.moveToFailed(err, token);
+      try {
+        await job.moveToFailed(err, token);
+      } catch(error) {
+        console.log(error);
+      }
+
       this.emit('failed', job, err, 'active');
     };
 
